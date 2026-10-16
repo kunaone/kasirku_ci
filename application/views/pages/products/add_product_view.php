@@ -23,7 +23,7 @@
             <div class="col-lg-12">
                 <h1>Tambah Produk</h1>
                 <ol class="breadcrumb">
-                    <li><a href="/product"><i class="icon-dashboard"></i> Produk</a></li>
+                    <li><a href="/products"><i class="icon-dashboard"></i> Produk</a></li>
                     <li class="active"><i class="icon-file-alt"></i> Tambah Produk</li>
                 </ol>
             </div>
@@ -34,21 +34,23 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         
-                        <?php if(isset($notif) || isset($success) == TRUE){ ?>
+                        <?php if(validation_errors()): ?>
+                        
+                        <div class="alert alert-warning alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>Perhatian!</strong> <?= isset($notif) ? $notif : '' ?>
+                        </div>
+                        
+                        <?php elseif($this->session->flashdata('success')) :?>
+                        
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>Success!</strong> <?= $this->session->flashdata('success'); ?>
+                        </div>
+                        
+                        <?php endif;?>
 
-                            <div class="alert alert-success">
-                                <i class="fa fa-check-circle"></i>&nbsp;
-                                <strong>Success!</strong>&nbsp;<?= $notif ?>
-                            </div>
-
-                        <?php } elseif(isset($notif) && $success == FALSE) { ?>
-
-                            <div class="alert alert-warning">
-                                <?= $notif ?>
-                            </div>
-
-                        <?php } ?>
-
+                        <!-- JIKA SUPPLIER MASIH KOSONG, TAMPILKAN PANEL PESAN SUPPLIER KOSONG -->
                         <?php if(empty($supplier)){ ?>
 
                         <div class="panel-body">
@@ -57,43 +59,48 @@
 
                         <?} else {?>
 
-                        <form action="<?= base_url('AddProductController/simpan') ?>" method="POST" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label class="control-label">Kode Supplier</label>
-                                <select class="form-control" name="kode_supplier">
-                                    <option>Pilih Kode Supplier</option>
+                        <?php
+                            echo form_open_multipart('products/create');
+                        ?>
+                            <div class="form-group <?= form_error('supplier_id') ? 'has-error' : '' ?>">
+                                <label class="control-label">Supplier</label>
+                                <select class="form-control" name="supplier_id">
+                                    <option>Pilih Supplier</option>
                                     <?php foreach ($supplier as $data): ?>
                                         <option
-                                            value="<?= $data->KODE_SUPPLIER; ?>"
-                                            <?= set_select('kode_supplier', $data->KODE_SUPPLIER); ?>
+                                            value="<?= $data['id']; ?>"
+                                            <?= set_select('supplier_id', $data['id']) ?>
                                         >
-                                            <?= $data->NAMA_SUPPLIER; ?>
+                                            <?= $data['supplier_name']; ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
+                                <?=  form_error('supplier_id', '<span class="help-block">', '</span>') ?>
                             </div>
-                            <div class="form-group <?= form_error('name_prod') ? 'has-error' : '' ?>">
+                            <div class="form-group <?= form_error('product') ? 'has-error' : '' ?>">
                                 <label class="control-label">Nama Produk</label>
-                                <input type="text" class="form-control" name="name_prod" value="<?= isset($_POST['name_prod']) ? $_POST['name_prod'] : ''; ?>">
-                                <?=  form_error('name_prod', '<span class="help-block">', '</span>') ?>
+                                <input type="text" class="form-control" name="product" value="<?= set_value('product') ?>">
+                                <?=  form_error('product', '<span class="help-block">', '</span>') ?>
                             </div>
-                            <div class="form-group <?= form_error('sell_price') ? 'has-error' : '' ?>">
+                            <div class="form-group <?= form_error('price') ? 'has-error' : '' ?>">
                                 <label class="control-label">Harga Jual</label>
-                                <input type="text" class="form-control" name="sell_price" value="<?= isset($_POST['sell_price']) ? $_POST['sell_price'] : ''; ?>" autofocus>
-                                <?=  form_error('sell_price', '<span class="help-block">', '</span>') ?>
+                                <input type="text" class="form-control" name="price" value="<?= set_value('price') ?>" autofocus>
+                                <?=  form_error('price', '<span class="help-block">', '</span>') ?>
                             </div>
-                            <div class="form-group <?= form_error('qty_stock') ? 'has-error' : '' ?>">
+                            <div class="form-group <?= form_error('stock') ? 'has-error' : '' ?>">
                                 <label class="control-label">Jumlah Stok</label>
-                                <input type="text" class="form-control"  name="qty_stock" value="<?= isset($_POST['qty_stock']) ? $_POST['qty_stock'] : '';?>">
-                                <?=  form_error('qty_stock', '<span class="help-block">', '</span>') ?>
+                                <input type="text" class="form-control"  name="stock" value="<?= set_value('stock') ?>">
+                                <?=  form_error('stock', '<span class="help-block">', '</span>') ?>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Upload Gambar</label>
-                                <input type="file" name="foto">
+                                <input type="file" name="userfile" size="20">
                             </div>
                             
-                            <input type="submit" class="btn btn-success" name="submit" value="Submit">
-                            <button type="reset" class="btn btn-warning">Reset</button>
+                            <div style="margin-top: 32px;">
+                                <button type="reset" class="btn btn-warning">Reset</button>
+                                <input type="submit" class="btn btn-success" name="submit" value="Submit">
+                            </div>
                         </form>
                         <?php } ?>
                     </div>
@@ -101,3 +108,4 @@
             </div> <!-- /.col-lg-12 -->
         </div> <!-- /.row -->
     </div> <!-- container-fluid -->
+    

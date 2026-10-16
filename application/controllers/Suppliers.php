@@ -46,6 +46,7 @@ class Suppliers extends CI_Controller{
     public function edit($id)
     {
         $data['supplier'] = $this->Supplier->get_supplier($id);
+        
         if(empty($data['supplier'])){
             show_404();
         }
