@@ -17,11 +17,11 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         
-                        <?php if(validation_errors()): ?>
+                        <?php if($this->session->flashdata('error')): ?>
                         
                         <div class="alert alert-warning alert-dismissible" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong>Perhatian!</strong> <?= isset($notif) ? $notif : '' ?>
+                            <strong>Perhatian!</strong> <?= isset($notif) ? $notif : '' ?> <?= $this->session->flashdata('error') ?>
                         </div>
                         
                         <?php elseif($this->session->flashdata('success')) :?>
@@ -33,7 +33,7 @@
                         
                         <?php endif;?>
 
-                        <?= form_open_multipart('products/update'); ?>
+                        <?= form_open_multipart('products/update/' . $product['id']) ?>
                             <input type="hidden" name="id" value="<?= $product['id'] ?>">
                             <div class="form-group <?= form_error('supplier_id') ? 'has-error' : '' ?>">
                                 <label class="control-label">Supplier</label>
@@ -67,7 +67,8 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Upload Gambar</label>
-                                <input type="file" name="foto">
+                                <input type="file" name="userfile">
+                                <small class="text-muted">*File wajib berformat jpeg, jpg, png </small>
                             </div>
                             
                             <div style="margin-top: 32px;">

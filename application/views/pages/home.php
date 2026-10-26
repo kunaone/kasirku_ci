@@ -6,24 +6,30 @@
       <ol class="breadcrumb">
         <li class="active"><i class="fa fa-dashboard"></i> Dashboard</li>
       </ol>
-      <div class="alert alert-success alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        Welcome to SB Admin by <a class="alert-link" href="http://startbootstrap.com">Start Bootstrap</a>! Feel free to use this template for your admin needs! We are using a few different plugins to handle the dynamic tables and charts, so make sure you check out the necessary documentation links provided.
-      </div>
     </div>
   </div><!-- /.row -->
 
+  <?php
+
+    $arr = array(array("color" => "panel-info", "icon" => "fa fa-bar-chart-o", "label" => "Omset Hari Ini", "value" => ""), 
+                 array("color" => "panel-warning", "icon" => "fa fa-shopping-cart", "label" => "Jumlah Transaksi", "value" => ""), 
+                 array("color" => "panel-danger", "icon" => "fa fa-list", "label" => "Rata-rata", "value" => ""), 
+                 array("color" => "panel-success", "icon" => "fa fa-check-square-o", "label" => "Item Terjual", "value" => ""));
+  
+  ?>
+
   <div class="row">
+    <?php foreach($arr as $value): ?>
     <div class="col-lg-3">
-      <div class="panel panel-info">
+      <div class="panel <?=$value['color']?>">
         <div class="panel-heading">
           <div class="row">
             <div class="col-xs-6">
-              <i class="fa fa-comments fa-5x"></i>
+              <i class="<?=$value['icon']?> fa-5x"></i>
             </div>
             <div class="col-xs-6 text-right">
               <p class="announcement-heading">456</p>
-              <p class="announcement-text">New Mentions!</p>
+              <p class="announcement-text"><?= $value['label'] ?></p>
             </div>
           </div>
         </div>
@@ -31,7 +37,7 @@
           <div class="panel-footer announcement-bottom">
             <div class="row">
               <div class="col-xs-6">
-                View Mentions
+                Details
               </div>
               <div class="col-xs-6 text-right">
                 <i class="fa fa-arrow-circle-right"></i>
@@ -41,163 +47,23 @@
         </a>
       </div>
     </div>
-    <div class="col-lg-3">
-      <div class="panel panel-warning">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-xs-6">
-              <i class="fa fa-check fa-5x"></i>
-            </div>
-            <div class="col-xs-6 text-right">
-              <p class="announcement-heading">12</p>
-              <p class="announcement-text">To-Do Items</p>
-            </div>
-          </div>
-        </div>
-        <a href="#">
-          <div class="panel-footer announcement-bottom">
-            <div class="row">
-              <div class="col-xs-6">
-                Complete Tasks
-              </div>
-              <div class="col-xs-6 text-right">
-                <i class="fa fa-arrow-circle-right"></i>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-lg-3">
-      <div class="panel panel-danger">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-xs-6">
-              <i class="fa fa-tasks fa-5x"></i>
-            </div>
-            <div class="col-xs-6 text-right">
-              <p class="announcement-heading">18</p>
-              <p class="announcement-text">Crawl Errors</p>
-            </div>
-          </div>
-        </div>
-        <a href="#">
-          <div class="panel-footer announcement-bottom">
-            <div class="row">
-              <div class="col-xs-6">
-                Fix Issues
-              </div>
-              <div class="col-xs-6 text-right">
-                <i class="fa fa-arrow-circle-right"></i>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-lg-3">
-      <div class="panel panel-success">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-xs-6">
-              <i class="fa fa-comments fa-5x"></i>
-            </div>
-            <div class="col-xs-6 text-right">
-              <p class="announcement-heading">56</p>
-              <p class="announcement-text">New Orders!</p>
-            </div>
-          </div>
-        </div>
-        <a href="#">
-          <div class="panel-footer announcement-bottom">
-            <div class="row">
-              <div class="col-xs-6">
-                Complete Orders
-              </div>
-              <div class="col-xs-6 text-right">
-                <i class="fa fa-arrow-circle-right"></i>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
+    <?php endforeach; ?>
+    
   </div><!-- /.row -->
 
   <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-primary">
+    <div class="col-lg-6">
+      <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Traffic Statistics: October 1, 2013 - October 31, 2013</h3>
+          <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Penjualan per Bulan</h3>
         </div>
         <div class="panel-body">
-          <div id="morris-chart-area"></div>
+          <div id="chart-dasar" class="chart-box"></div>
         </div>
       </div>
     </div>
-  </div><!-- /.row -->
 
-  <div class="row">
-    <div class="col-lg-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Traffic Sources: October 1, 2013 - October 31, 2013</h3>
-        </div>
-        <div class="panel-body">
-          <div id="morris-chart-donut"></div>
-          <div class="text-right">
-            <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h3 class="panel-title"><i class="fa fa-clock-o"></i> Recent Activity</h3>
-        </div>
-        <div class="panel-body">
-          <div class="list-group">
-            <a href="#" class="list-group-item">
-              <span class="badge">just now</span>
-              <i class="fa fa-calendar"></i> Calendar updated
-            </a>
-            <a href="#" class="list-group-item">
-              <span class="badge">4 minutes ago</span>
-              <i class="fa fa-comment"></i> Commented on a post
-            </a>
-            <a href="#" class="list-group-item">
-              <span class="badge">23 minutes ago</span>
-              <i class="fa fa-truck"></i> Order 392 shipped
-            </a>
-            <a href="#" class="list-group-item">
-              <span class="badge">46 minutes ago</span>
-              <i class="fa fa-money"></i> Invoice 653 has been paid
-            </a>
-            <a href="#" class="list-group-item">
-              <span class="badge">1 hour ago</span>
-              <i class="fa fa-user"></i> A new user has been added
-            </a>
-            <a href="#" class="list-group-item">
-              <span class="badge">2 hours ago</span>
-              <i class="fa fa-check"></i> Completed task: "pick up dry cleaning"
-            </a>
-            <a href="#" class="list-group-item">
-              <span class="badge">yesterday</span>
-              <i class="fa fa-globe"></i> Saved the world
-            </a>
-            <a href="#" class="list-group-item">
-              <span class="badge">two days ago</span>
-              <i class="fa fa-check"></i> Completed task: "fix error on sales page"
-            </a>
-          </div>
-          <div class="text-right">
-            <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4">
+    <div class="col-lg-6">
       <div class="panel panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title"><i class="fa fa-money"></i> Recent Transactions</h3>
@@ -271,4 +137,4 @@
         </div>
       </div>
     </div>
-  </div><!-- /.row -->
+  </div>

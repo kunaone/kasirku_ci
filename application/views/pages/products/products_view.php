@@ -63,7 +63,7 @@
                                         <td><?= $no++ ?></td>
                                         <td><?= isset($data['name_product']) ? $data['name_product'] : '-'; ?></td>
                                         <td><?= isset($data['qty_stock']) ? $data['qty_stock'] : '-'; ?></td>
-                                        <td><?= isset($data['sell_price']) ? $data['sell_price'] : '-'; ?></td>
+                                        <td><?= isset($data['sell_price']) ? 'Rp ' . number_format($data['sell_price'], 0, ',', '.') : '-'; ?></td>
                                         <td>
                                             <?php if(isset($data['img_prod']) && $data['img_prod'] !== 'noimage.jpg'): ?> 
                                             
@@ -76,7 +76,7 @@
                                             <?php endif; ?>
                                         </td>
                                         <td class="js-time"><?= isset($data['created_at']) ? $data['created_at'] : '-'; ?></td>
-                                        <td><?= isset($data['updated_at']) ? $data['updated_at'] : '-'; ?></td>
+                                        <td class="js-time"><?= isset($data['updated_at']) ? $data['updated_at'] : '-'; ?></td>
                                         <td>
                                             <button class="btn btn-warning" onclick="window.location.href='<?= site_url('products/edit/' . $data['id']) ?>'"><i class="fa fa-edit"></i></button>
                                             <button class="btn btn-danger"><i class="fa fa-trash-o"></i></button>

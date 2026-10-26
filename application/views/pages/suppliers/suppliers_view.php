@@ -46,11 +46,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                    $no = 1; 
+                                    <?php $no = 1; if(empty($suppliers)): ?>
+                                    <tr>
+                                        <td colspan="7" class="text-muted text-center" style="padding: 23px;">
+                                            <i class="fa fa-exclamation-circle "></i>&nbsp;<strong>Supplier Masih Kosong</strong>
+                                        </td>
+                                    </tr>
                                     
-                                    if(!empty($suppliers)):
-                                        foreach($suppliers as $data): 
+                                    <?php
+                                        else:
+                                            foreach($suppliers as $data): 
                                     ?>
                                     <tr>
                                         <td><?= $no++ ?></td>
@@ -65,14 +70,15 @@
                                                 $attr = array('class' => 'pull-right');
                                                 echo form_open('suppliers/delete/'. $data['id'], $attr); 
                                             ?>
-                                                <button class="btn btn-danger btn-delete-id" type="submit"><i class="fa fa-trash-o"></i></button>
+                                                <button class="btn btn-danger btn-delete-id" type="submit" disabled><i class="fa fa-trash-o"></i></button>
                                             </form>
                                         </td>
                                     </tr>
-                                    <?php endforeach; endif;?>
+                                    <?php endforeach;?>
                                 </tbody>
                             </table>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

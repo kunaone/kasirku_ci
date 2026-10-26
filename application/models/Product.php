@@ -13,7 +13,7 @@ class Product extends CI_Model{
     {
         if($id === NULL){
             
-            $this->db->order_by('created_at', 'desc');
+            $this->db->order_by('updated_at desc, created_at desc');
 
             $query = $this->db->get('products');
 

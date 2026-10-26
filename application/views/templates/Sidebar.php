@@ -17,7 +17,7 @@
 
             <li><a href="/"><i class="fa fa-dashboard"></i>&nbsp;&nbsp;Dashboard</a></li>
             <li><a href="/sales"><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Buat Transaksi</a></li>
-            <li><a href="/history"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;Riwayat Penjualan</a></li>
+            <li><a href="/history" style="pointer-events: none;"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;Riwayat Penjualan</a></li>
             <li><a href="/products"><i class="fa fa-tag"></i>&nbsp;&nbsp;Products</a></li>
             <li><a href="/suppliers"><i class="fa fa-truck"></i>&nbsp;&nbsp;Suppliers</a></li>
         </ul>

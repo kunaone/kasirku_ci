@@ -46,11 +46,9 @@ class Products extends CI_Controller{
 
             $this->load->library('upload', $config);
 
-            if (!$this->upload->do_upload('userfile')) {
-                // TEMPORARY: stop and show the reason
-                echo $this->upload->display_errors();
-                echo '<pre>'; print_r($_FILES); echo '</pre>';
-                die();
+            if (!$this->upload->do_upload()) {
+                $errors = array('error' => $this->upload->display_errors());
+                $product_img = 'noimage.jpg';
             } else {
                 $upload_data = $this->upload->data();
                 $product_img = $upload_data['file_name'];
@@ -65,41 +63,38 @@ class Products extends CI_Controller{
         $this->view('add_product_view', $data);
     }
 
-    public function edit($id, $product_img = NULL)
+    public function edit($id)
     {
-        $data['product'] = $this->Product->get_product($id);
+        $data['product']  = $this->Product->get_product($id);
         $data['supplier'] = $this->Supplier->get_supplier();
-        
-        if(empty($data['product'])){
+
+        if (empty($data['product'])) {
             show_404();
         }
 
         $this->view('edit_product_view', $data);
     }
 
-    public function update($id)
+    public function update($id, $product_img = NULL)
     {
-        $data['supplier'] = $this->Supplier->get_supplier();
-
         $this->form_validation->set_rules('supplier_id', 'Supplier', 'required|is_natural_no_zero',
                                             array('is_natural_no_zero' => '*Silahkan Pilih %s!'));
-        $this->form_validation->set_rules('product','Nama Produk', 'trim|required',
+        $this->form_validation->set_rules('product', 'Nama Produk', 'trim|required',
                                             array('required' => '*%s Wajib Diisi!'));
-        $this->form_validation->set_rules('price','Harga', 'trim|required|numeric',
+        $this->form_validation->set_rules('price', 'Harga', 'trim|required|numeric',
                                             array('required' => '*%s Wajib Diisi!',
-                                                    'numeric' => '*%s Kolom Hanya Berisi Angka'));
-        $this->form_validation->set_rules('stock','Stok', 'trim|required|numeric',
+                                                'numeric'  => '*%s Kolom Hanya Berisi Angka'));
+        $this->form_validation->set_rules('stock', 'Stok', 'trim|required|numeric',
                                             array('required' => '*%s Wajib Diisi!',
-                                                    'numeric' => '*%s Kolom Hanya Berisi Angka'));
+                                                'numeric'  => '*%s Kolom Hanya Berisi Angka'));
 
-                                                    
-        if($this->form_validation->run() === FALSE){
-            $data['notif'] = 'Sliahkan periksa kembali data yang dimasukkan';
+        if ($this->form_validation->run() === FALSE) {
+            // validation errors are still available to the view in this request
             return $this->edit($id);
-        } 
-        
-        if(!empty($_FILES['userfile']['name'])){
-            //Upload Image
+        }
+
+
+        if (!empty($_FILES['userfile']['name'])) {
             $config['upload_path']   = './assets/image/products/';
             $config['allowed_types'] = 'jpg|jpeg|png';
             $config['max_size']      = 2048;
@@ -108,22 +103,20 @@ class Products extends CI_Controller{
             $this->load->library('upload', $config);
 
             if (!$this->upload->do_upload('userfile')) {
-                // TEMPORARY: stop and show the reason
-                echo $this->upload->display_errors();
-                echo '<pre>'; print_r($_FILES); echo '</pre>';
-                die();
+                $this->session->set_flashdata('error', $this->upload->display_errors());
+                redirect('products/edit/' . $id);
             } else {
                 $upload_data = $this->upload->data();
                 $product_img = $upload_data['file_name'];
             }
 
-            $this->session->set_flashdata('success', 'Data Berhasil Disimpan');
-
-            $this->Product->update_product($product_img);
-            redirect('products');
+            // $product_img = $this->upload->data('file_name');
         }
 
-        $this->view('add_product_view', $data);
+        $this->Product->update_product($id, $product_img);
+
+        $this->session->set_flashdata('success', 'Data Berhasil Disimpan');
+        redirect('products');
     }
 
     private function view($page = 'products_view', $data = array())
